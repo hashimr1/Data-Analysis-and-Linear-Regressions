@@ -23,10 +23,12 @@ from typing import List, Set
 
 def read_powerplant_file(powerplant_filepath: str, carbon_emission_filepath: str) -> List[List]:
     """ return the proportion of emission and non-emission powerplants in a country.
-        The returned value will be a list of three list. The first list represent
-        the country name and the second represent the proportion of emission powerplant
-        in the country and the third list represent the proportion of non-emission
-        powerplant in the country.
+        The returned value will be a list of two list. The first list represent
+        the country name and the second list is a list of tuples that have the
+        proportion of emission and non-emission powerplant. The first number in
+        each tuple will be the proportion of emission powerplant in a country
+        and the second number in each tuple will be the proportion of non-emission
+        powerplant in a country.
 
     Preconditions:
         - powerplant_filepath refers to the powerplant csv file
@@ -36,8 +38,6 @@ def read_powerplant_file(powerplant_filepath: str, carbon_emission_filepath: str
     >>> len(powerplant[0]) == 156
     True
     >>> len(powerplant[1]) == 156
-    True
-    >>> len(powerplant[2]) == 156
     True
 
     """
@@ -70,12 +70,17 @@ def read_powerplant_file(powerplant_filepath: str, carbon_emission_filepath: str
                 list.append(data[2], 1)
 
     country = common_country(powerplant_filepath, carbon_emission_filepath)
-    actual_data = [[], [], []]
+    prop_data = [[], [], []]
     for k in range(0, len(data[0])):
         if data[0][k] in country:
-            list.append(actual_data[0], data[0][k])
-            list.append(actual_data[1], data[1][k] / (data[1][k] + data[2][k]))
-            list.append(actual_data[2], data[2][k] / (data[1][k] + data[2][k]))
+            list.append(prop_data[0], data[0][k])
+            list.append(prop_data[1], data[1][k] / (data[1][k] + data[2][k]))
+            list.append(prop_data[2], data[2][k] / (data[1][k] + data[2][k]))
+
+    actual_data = [[], []]
+    for k in range(0, len(prop_data[0])):
+        list.append(actual_data[0], prop_data[0][k])
+        list.append(actual_data[1], (prop_data[1][k], prop_data[2][k]))
 
     return actual_data
 
