@@ -144,8 +144,12 @@ def common_country(powerplant_filepath: str, carbon_emission_filepath: str) -> S
             if row[2] == "2018":
                 co_country.add(row[1])
 
-    all_country = powerplant_country.union(co_country)
-    return {k for k in all_country if k in powerplant_country and k in co_country}
+    common = set()
+    for country in co_country:
+        if country in powerplant_country:
+            common.add(country)
+
+    return common
 
 
 if __name__ == '__main__':
