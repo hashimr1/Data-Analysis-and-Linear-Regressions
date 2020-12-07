@@ -44,7 +44,7 @@ def read_powerplant_file(powerplant_filepath: str, carbon_emission_filepath: str
     emission = {'Oil', 'Gas', 'Petcoke', 'Coal', 'Storage', 'Cogeneration'}
     non_emission = {'Hydro', 'Wave and Tidal', 'Nuclear', 'Biomass',
                     'Solar', 'Geothermal', 'Wind', 'Waste'}
-    with open(powerplant_filepath) as file:
+    with open(powerplant_filepath, encoding='utf-8') as file:
         reader = csv.reader(file)
         next(reader)
         data_so_far = {'country': [], 'type': []}
@@ -103,7 +103,7 @@ def read_carbon_emission_file(powerplant_filepath: str, carbon_emission_filepath
 
     """
     country = common_country(powerplant_filepath, carbon_emission_filepath)
-    with open(carbon_emission_filepath) as file:
+    with open(carbon_emission_filepath, encoding='utf-8') as file:
         reader = csv.reader(file)
         next(reader)
         data_so_far = [[], []]
@@ -131,13 +131,13 @@ def common_country(powerplant_filepath: str, carbon_emission_filepath: str) -> S
     """
     powerplant_country = set()
     co_country = set()
-    with open(powerplant_filepath) as file:
+    with open(powerplant_filepath, encoding='utf-8') as file:
         reader = csv.reader(file)
         next(reader)
         for row in reader:
             powerplant_country.add(row[1])
 
-    with open(carbon_emission_filepath) as file:
+    with open(carbon_emission_filepath, encoding='utf-8') as file:
         reader = csv.reader(file)
         next(reader)
         for row in reader:
