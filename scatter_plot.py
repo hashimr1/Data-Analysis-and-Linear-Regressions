@@ -67,7 +67,7 @@ mapdf = pd.DataFrame({
     'Emissions': duplicate_emissions(nuclear_emissions, nuclear_position[0])
 })
 
-# Figure 1:
+# Figure 1: 3D Scatter Plot
 fig = px.scatter_3d(powerplantdf, x='Emission Power Plants per Capita',
                     y='Non-Emission Power Plants per Capita',
                     z='Carbon Emissions per Capita',
