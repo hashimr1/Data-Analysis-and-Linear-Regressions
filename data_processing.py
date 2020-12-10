@@ -191,10 +191,13 @@ def read_nuclear_powerplant_co2(powerplant_filepath: str, carbon_emission_filepa
     nuclear = read_nuclear_powerplant(powerplant_filepath, carbon_emission_filepath,
                                       population_filepath)
     co2 = read_co2_data(carbon_emission_filepath)
+    population = read_pop_data(population_filepath)
     nuclear_co2 = [[], []]
     for x in range(0, len(nuclear[0])):
         nuclear_co2[0].append(nuclear[0][x])
-        nuclear_co2[1].append(co2['co2'][co2['country'].index(nuclear[0][x])])
+        nuclear_co2[1].append(co2['co2'][co2['country'].index(nuclear[0][x])]
+                              / population['population']
+                              [population['country'].index(nuclear[0][x])])
 
     return nuclear_co2
 
