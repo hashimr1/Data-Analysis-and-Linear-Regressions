@@ -208,8 +208,8 @@ def get_longtitude_latitude(powerplant_filepath: str, carbon_emission_filepath: 
     each nuclear powerplant in the 30 countries that are in all three data sets.
     The return value will be a list of four lists. The first list is the country name.
     The second list is the name of the powerplant.
-    The third list is the longtitude of the nuclear powerplants.
-    The fourth list is the latitude of the nuclear powerplants.
+    The third list is the latitude of the nuclear powerplants.
+    The fourth list is the longitude of the nuclear powerplants.
 
     Precondition:
         - powerplant_filepath refers to the powerplant csv file
