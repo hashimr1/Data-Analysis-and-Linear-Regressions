@@ -9,6 +9,7 @@ St. George campus. All forms of distribution of this code, whether as given or w
 are expressly prohibited.
 This file is Copyright (c) 2020 Raazia Hashim.
 """
+from typing import List
 
 import pandas as pd
 import plotly.express as px
@@ -41,11 +42,29 @@ nuclearplantdf = pd.DataFrame({
     'Carbon Emissions per Capita': nuclear_emissions[1]
 })
 
+
+def duplicate_emissions(emission: List[List], countries: List) -> List:
+    """Return a list with duplicated carbon emissions corresponding with the countries that go
+    with all nuclear power plants.
+
+    >>> new_emissions = duplicate_emissions(nuclear_emissions, nuclear_position[0])
+    >>> len(new_emissions) == len(nuclear_position[0])
+    True
+    """
+    emissions_so_far = []
+    for country in countries:
+        i = emission[0].index(country)
+        emissions_so_far.append(emission[1][i])
+
+    return emissions_so_far
+
+
 mapdf = pd.DataFrame({
     'Countries': nuclear_position[0],
     'Power Plant': nuclear_position[1],
     'Latitudes': nuclear_position[2],
-    'Longitudes': nuclear_position[3]
+    'Longitudes': nuclear_position[3],
+    'Emissions': duplicate_emissions(nuclear_emissions, nuclear_position[0])
 })
 
 # Figure 1:
@@ -83,20 +102,26 @@ px.set_mapbox_access_token(open(".mapbox_token").read())
 fig = px.scatter_mapbox(mapdf, lat='Latitudes', lon='Longitudes',
                         template='seaborn',
                         zoom=1.5,
+                        size='Emissions',
+                        color='Emissions',
+                        color_continuous_scale=px.colors.sequential.Jet,
                         hover_name='Countries',
-                        title='Nuclear Powerplants around the World')
+                        hover_data=['Power Plant'],
+                        title='Nuclear Power plants around the World')
 fig.show()
 
-if __name__ == '__main__':
-    import python_ta
-
-    python_ta.check_all(config={
-        'max-line-length': 100,
-        'extra-imports': ['python_ta.contracts', 'pandas', 'plotly.express', 'data_processing'],
-        'disable': ['R1705', 'C0200']
-    })
-
-    import python_ta.contracts
-
-    python_ta.contracts.DEBUG_CONTRACTS = False
-    python_ta.contracts.check_all_contracts()
+# if __name__ == '__main__':
+#     import python_ta
+#
+#     python_ta.check_all(config={
+#         'max-line-length': 120,
+#         'extra-imports': ['python_ta.contracts', 'pandas', 'plotly.express', 'data_processing'],
+#         'disable': ['R1705', 'C0200'],
+#     })
+#
+#     import python_ta.contracts
+#     python_ta.contracts.DEBUG_CONTRACTS = False
+#     python_ta.contracts.check_all_contracts()
+#
+#     import doctest
+#     doctest.testmod()
