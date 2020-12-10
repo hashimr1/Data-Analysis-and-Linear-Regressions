@@ -91,10 +91,10 @@ def read_powerplant_file(powerplant_filepath: str, carbon_emission_filepath: str
 
 def read_carbon_emission_file(powerplant_filepath: str, carbon_emission_filepath: str,
                               population_filepath: str) -> List[List]:
-    """Return the carbon emission in 2017 among all the country in the powerplant dataset and
+    """Return the carbon emission per capita in 2017 among all the country in the powerplant dataset and
        population dataset. The returned value will be a list of two lists.
        The first list is the country name and
-       the second list is the carbon emission of the country in 2017
+       the second list is the carbon emission per capita of the country in 2017
 
     Preconditions:
         - powerplant_filepath refers to the powerplant csv file
@@ -173,10 +173,10 @@ def read_nuclear_powerplant(powerplant_filepath: str, carbon_emission_filepath: 
 
 def read_nuclear_powerplant_co2(powerplant_filepath: str, carbon_emission_filepath: str,
                                 population_filepath: str) -> List[List]:
-    """Return the carbon emission for countries that have at least one nuclear powerplant and that
+    """Return the carbon emission per capita for countries that have at least one nuclear powerplant and that
      is in both the carbon emission dataset and the population dataset
      The returned value will be a list of two lists. The first list is the country name
-     and the second list is the carbon emission in 2017 that correspond to the country
+     and the second list is the carbon emission per capita in 2017 that correspond to the country
 
      Precondition:
         - powerplant_filepath refers to the powerplant csv file
