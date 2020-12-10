@@ -110,12 +110,14 @@ def read_carbon_emission_file(powerplant_filepath: str, carbon_emission_filepath
 
     """
     country = common_country(powerplant_filepath, carbon_emission_filepath, population_filepath)
+    population = read_pop_data(population_filepath)
     co2 = read_co2_data(carbon_emission_filepath)
     data_so_far = [[], []]
     for x in range(0, len(co2['country'])):
         if co2['country'][x] in country:
             data_so_far[0].append(co2['country'][x])
-            data_so_far[1].append(co2['co2'][x])
+            index = population['country'].index(co2['country'][x])
+            data_so_far[1].append(co2['co2'][x] / population['population'][index])
 
     return data_so_far
 
@@ -276,14 +278,14 @@ def read_powerplant_data(powerplant_filepath: str) -> Dict:
                 list.append(data_so_far['country'], 'United States')
                 list.append(data_so_far['name'], row[2])
                 list.append(data_so_far['type'], row[7])
-                list.append(data_so_far['longtitude'], row[5])
-                list.append(data_so_far['latitude'], row[6])
+                list.append(data_so_far['longtitude'], float(row[5]))
+                list.append(data_so_far['latitude'], float(row[6]))
             else:
                 list.append(data_so_far['country'], row[1])
                 list.append(data_so_far['name'], row[2])
                 list.append(data_so_far['type'], row[7])
-                list.append(data_so_far['longtitude'], row[5])
-                list.append(data_so_far['latitude'], row[6])
+                list.append(data_so_far['longtitude'], float(row[5]))
+                list.append(data_so_far['latitude'], float(row[6]))
 
         return data_so_far
 
@@ -306,7 +308,7 @@ def read_co2_data(carbon_emission_filepath: str) -> Dict:
         for row in reader:
             if row[2] == "2017":
                 data_so_far['country'].append(row[1])
-                data_so_far['co2'].append(row[3])
+                data_so_far['co2'].append(float(row[3]))
 
         return data_so_far
 
