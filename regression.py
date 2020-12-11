@@ -12,25 +12,14 @@ are expressly prohibited.
 
 This file is Copyright (c) 2020 Kenneth Miura.
 '''
-from typing import List
 import numpy as np
 import data_processing
 from sklearn.linear_model import LinearRegression
+import math
 
-
-# 1. Try normalizing the two independent variables?
-# 2. Try running on a single variable
-#   2.a. try on a single variable dataset that gives you pos slope
-#       - It kinda works, had to run on 2 var where coeff of second should be 0, but it got 1
-#   2.b. try on a single variable dataset that gives you negative slope, to verify thats possible
-# 3. Check error for  the sklearn regression coefficients vs. the homebrew on the training dataset
-#   - on our dataset, the homebrew regression actually performs better
-# 4. Change so we compute the average error, and graph that instead of the squared average error
-
-# When the learning_rate is too high, it just nans. This kinda makes sense, since grad descent with too high learning rate will diverge
 
 def linear_regression(X: np.array, y: np.array, num_of_iterations: int,
-                      learning_rate: float) -> List[float]:
+                      learning_rate: float) -> np.array:
     '''Return a list of coefficients for X that best predict Y.
 
 
@@ -61,11 +50,11 @@ def linear_regression(X: np.array, y: np.array, num_of_iterations: int,
         gradient = (np.dot(X.T, prediction) - np.dot(X.T, y)) * 2 / num_of_data_points
         params = params - learning_rate * gradient
     print(f'Final error: {error_over_time[-2]}')
-
+    # breakpoint()
     return params
 
 
-def test_linear_regression() -> None:
+def test_linear_regression(iterations=10000, learning_rate=0.4) -> None:
     '''
 
 
@@ -75,22 +64,26 @@ def test_linear_regression() -> None:
     '''
 
     # NOTE: the sklearn methods want np array in form (index of the datapoint, variable), which they are rn
-    names, proportions = data_processing.read_powerplant_file('global_power_plant_database.csv', 'owid-co2-data.csv')
-    _, emissions = data_processing.read_carbon_emission_file('global_power_plant_database.csv', 'owid-co2-data.csv')
+    _, proportions = data_processing.read_powerplant_file('global_power_plant_database.csv', 'owid-co2-data.csv',
+                                                          'countries of the world.csv')
+    _, emissions = data_processing.read_carbon_emission_file('global_power_plant_database.csv', 'owid-co2-data.csv',
+                                                             'countries of the world.csv')
     np_proportions = np.array(proportions)
     np_emissions = np.array(emissions).astype(float).reshape((-1, 1))
-    X_train = np_proportions[:-20, :]
-    X_test = np_proportions[-20:, :]
-    y_train = np_emissions[:-20, :]
-    y_test = np_emissions[-20:, :]
+    train_index = math.floor(len(np_proportions) * 0.8)
+
+    X_train = np_proportions[:train_index, :]
+    X_test = np_proportions[train_index:, :]
+    y_train = np_emissions[:train_index, :]
+    y_test = np_emissions[train_index:, :]
     reg = LinearRegression().fit(X_train, y_train)
-    print(f'coeff: {reg.coef_}, intercept: {reg.intercept_}')
+    print(f'sklearn coeff: {reg.coef_}, sklearn intercept: {reg.intercept_}')
     reg_error = reg.predict(X_test) - y_test
     reg_error_average = np.average(reg_error)
     print(f'sklearn average error: {reg_error_average}')
 
-    homebrew_coeff = linear_regression(np_proportions, np_emissions, 100, 0.6)
-    print(f'homebrew: {homebrew_coeff}')
+    homebrew_coeff = linear_regression(X_train, y_train, iterations, learning_rate)
+    print(f'homebrew coeff: {homebrew_coeff[:-1]}, homebrew intercept: {homebrew_coeff[-1]}')
     np_coeffs = np.array(homebrew_coeff)[:-1]
     offset = homebrew_coeff[-1]
     prediction = np.dot(X_test, np_coeffs) + offset
@@ -98,18 +91,54 @@ def test_linear_regression() -> None:
     homebrew_error_average = np.average(homebrew_error)
     print(f'homebrew average error:{homebrew_error_average}')
 
+    print(f' difference in average error:{abs(homebrew_error_average) - abs(reg_error_average)}')
+
     tolerance = 1
-    assert (homebrew_error_average <= reg_error_average + tolerance)
+    assert (abs(homebrew_error_average) <= abs(reg_error_average) + tolerance)
+
+
+def test_nuclear_regression(iterations=10000, learning_rate=0.4):
+    _, num_of_nuclear = data_processing.read_nuclear_powerplant('global_power_plant_database.csv', 'owid-co2-data.csv',
+                                                                'countries of the world.csv')
+    _, nuclear_emissions = data_processing.read_nuclear_powerplant_co2('global_power_plant_database.csv',
+                                                                       'owid-co2-data.csv',
+                                                                       'countries of the world.csv')
+    np_nuclear = np.array(num_of_nuclear).reshape(-1, 1)
+    np_nuclear_emissions = np.array(nuclear_emissions).astype(float).reshape(-1, 1)
+
+    train_index = math.floor(len(np_nuclear) * 0.8)
+
+    X_train = np_nuclear[:train_index]
+    X_test = np_nuclear[train_index:]
+    y_train = np_nuclear_emissions[:train_index]
+    y_test = np_nuclear_emissions[train_index:]
+    reg = LinearRegression().fit(X_train, y_train)
+    print(f'sklearn coeff: {reg.coef_}, sklearn intercept: {reg.intercept_}')
+    reg_error = reg.predict(X_test) - y_test
+    reg_error_average = np.average(reg_error)
+    print(f'sklearn average error: {reg_error_average}')
+
+    homebrew_coeff = linear_regression(X_train, y_train, iterations, learning_rate)
+    print(f'homebrew coeff: {homebrew_coeff[:-1]}, homebrew intercept: {homebrew_coeff[-1]}')
+    np_coeffs = np.array(homebrew_coeff)[:-1]
+    offset = homebrew_coeff[-1]
+    prediction = np.dot(X_test, np_coeffs) + offset
+    homebrew_error = prediction - y_test
+    homebrew_error_average = np.average(homebrew_error)
+    print(f'homebrew average error:{homebrew_error_average}')
+    print(f' difference in average error:{abs(homebrew_error_average) - abs(reg_error_average)}')
 
 
 if __name__ == '__main__':
     import python_ta
 
-    python_ta.check_all(config={
-        'max-line-length': 100,
-        'extra-imports': ['python_ta.contracts', 'numpy', 'data_processing', 'sklearn.linear_model'],
-        'disable': ['R1705', 'W1114']
-    })
+    # TODO: configure pyta
+
+    # python_ta.check_all(config={
+    #     'max-line-length': 100,
+    #     'extra-imports': ['python_ta.contracts', 'numpy', 'data_processing', 'sklearn.linear_model'],
+    #     'disable': ['R1705', 'W1114']
+    # })
 
     import python_ta.contracts
 
@@ -117,4 +146,4 @@ if __name__ == '__main__':
     python_ta.contracts.check_all_contracts()
     import pytest
 
-    pytest.main(['regression.py'])
+    # pytest.main(['regression.py'])
