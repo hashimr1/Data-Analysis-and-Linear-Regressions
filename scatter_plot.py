@@ -74,22 +74,22 @@ fig = px.scatter_3d(powerplantdf, x='Emission Power Plants per Capita',
                     title='Carbon Emissions and Type of Power Plants per Capita',
                     template='seaborn')
 fig.show()
-#
-# # Figure 2:
+
+# Figure 2:
 fig = px.scatter(powerplantdf, x='Emission Power Plants per Capita',
                  y='Carbon Emissions per Capita',
                  title='Carbon Emissions and Emission Power Plants per Capita',
                  template='seaborn')
 fig.show()
 
-# # Figure 3:
+# Figure 3:
 fig = px.scatter(powerplantdf, x='Non-Emission Power Plants per Capita',
                  y='Carbon Emissions per Capita',
                  title='Carbon Emissions and Non-Emission Power Plants per Capita',
                  template='seaborn')
 fig.show()
 
-# # Figure 4:
+# Figure 4:
 fig = px.scatter(nuclearplantdf, x='Nuclear Power Plants per Capita',
                  y='Carbon Emissions per Capita',
                  title='Carbon Emissions and Nuclear Power Plants per Capita',
