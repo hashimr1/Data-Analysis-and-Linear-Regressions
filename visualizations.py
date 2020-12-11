@@ -5,9 +5,10 @@ Description
 This Python module contains functions that visualize power plant and carbon emissions data.
 
 Resources:
-https://plotly.com/python/3d-scatter-plots/
 https://plotly.com/python/scattermapbox/
 https://plotly.com/python/line-and-scatter/
+https://plotly.com/python/3d-scatter-plots/
+https://plotly.com/python/ml-regression/
 
 Copyright and Usage Information
 ===============================
@@ -222,7 +223,8 @@ def powerplants_and_emissions_plot() -> None:
     Then add a regression regression surface.
     Each point that is plotted represents a country.
 
-    Documentation available at https://plotly.com/python/3d-scatter-plots/
+    Documentation for 3D plot available at https://plotly.com/python/3d-scatter-plots/
+    Documentation for regression surface available at https://plotly.com/python/ml-regression/
     """
     powerplantdf = power_plant_df()
 
@@ -240,10 +242,6 @@ def powerplants_and_emissions_plot() -> None:
 def duplicate_emissions(emission: List[List], countries: List) -> List:
     """Return a list with duplicated carbon emissions corresponding with the countries that go
     with all nuclear power plants.
-
-    >>> new_emissions = duplicate_emissions(nuclear_emissions, nuclear_position[0])
-    >>> len(new_emissions) == len(nuclear_position[0])
-    True
     """
     emissions_so_far = []
     for country in countries:
