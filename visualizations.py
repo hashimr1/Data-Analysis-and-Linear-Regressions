@@ -116,7 +116,8 @@ def nuclear_position_map() -> None:
                             zoom=1.5,
                             size='Emissions',
                             color='Emissions',
-                            color_continuous_scale=px.colors.sequential.Jet,
+                            color_continuous_scale='jet',
+                            # px.colors.sequential.Jet
                             hover_name='Countries',
                             hover_data=['Power Plant'],
                             title='Nuclear Power plants around the World')
@@ -141,7 +142,7 @@ def nuclear_emissions_plot() -> None:
                      color='Countries',
                      size='Carbon Emissions per Capita',
                      title='Carbon Emissions and Nuclear Power Plants per Capita',
-                     template='seaborn')
+                     template='ggplot2')
 
     # # line of best fit using our linear regression
     # our_y1 = calculate_coeff(0, , )
@@ -170,7 +171,7 @@ def emissions_power_plants_plot() -> None:
     fig = px.scatter(powerplantdf, x='Emission Power Plants per Capita',
                      y='Carbon Emissions per Capita',
                      title='Carbon Emissions and Emission Power Plants per Capita',
-                     template='seaborn')
+                     template='ggplot2')
     # # line of best fit using our linear regression
     # our_y1 = calculate_coeff(0, , )
     # our_y2 = calculate_coeff(6e-07, , )
@@ -198,7 +199,7 @@ def non_emissions_power_plants_plot() -> None:
     fig = px.scatter(powerplantdf, x='Non-Emission Power Plants per Capita',
                      y='Carbon Emissions per Capita',
                      title='Carbon Emissions and Non-Emission Power Plants per Capita',
-                     template='seaborn')
+                     template='ggplot2')
     # # line of best fit using our linear regression
     # our_y1 = calculate_coeff(0, , )
     # our_y2 = calculate_coeff(6e-07, , )
@@ -232,7 +233,7 @@ def powerplants_and_emissions_plot() -> None:
                         y='Non-Emission Power Plants per Capita',
                         z='Carbon Emissions per Capita',
                         title='Carbon Emissions and Type of Power Plants per Capita',
-                        template='seaborn')
+                        template='ggplot2')
     fig.show()
 
 
