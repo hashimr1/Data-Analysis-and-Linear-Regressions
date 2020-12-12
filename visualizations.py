@@ -30,7 +30,7 @@ import regression
 ################################################################################
 # Create Data Frames
 ################################################################################
-def power_plant_df() -> object:
+def power_plant_df() -> pd.DataFrame:
     """Create and return a data frame containing information about power plants and carbon
     emissions for countries around the world.
     Columns:
@@ -52,7 +52,7 @@ def power_plant_df() -> object:
     })
 
 
-def nuclear_emissions_df() -> object:
+def nuclear_emissions_df() -> pd.DataFrame:
     """Create and return a data frame containing information about nuclear power plants per capita and carbon
     emissions for countries that have at least one nuclear power plant.
     Columns:
@@ -72,7 +72,7 @@ def nuclear_emissions_df() -> object:
     })
 
 
-def nuclear_locations_df() -> object:
+def nuclear_locations_df() -> pd.DataFrame:
     """Create and return a data frame containing information about nuclear power plants, carbon
     emissions and their locations as an input to a map visualization.
     Columns:
@@ -127,7 +127,7 @@ def nuclear_position_map() -> None:
 ################################################################################
 # Scatter Plots and Linear Regressions
 ################################################################################
-def nuclear_emissions_plot() -> None:
+def nuclear_emissions_plot(our_slope, our_intercept) -> None:
     """Plot nuclear emissions per capita and carbon emissions per capita on a scatter plot.
     Then add a linear regression, using regression fit in regression.py.
     Each point that is plotted represents a country. The size of the point
@@ -136,7 +136,12 @@ def nuclear_emissions_plot() -> None:
     Documentation available at https://plotly.com/python/line-and-scatter/
     """
     nuclearplantdf = nuclear_emissions_df()
+    max_x_val = nuclearplantdf['Nuclear Power Plants per Capita'].max() * 1.2
+    # min_x_val is close to 0, so its more intuitive to start the graph at 0
+    min_x_val = 0
 
+    print(f'min {min_x_val}')
+    print(f'max: {max_x_val}')
     fig = px.scatter(nuclearplantdf, x='Nuclear Power Plants per Capita',
                      y='Carbon Emissions per Capita',
                      color='Countries',
@@ -144,22 +149,27 @@ def nuclear_emissions_plot() -> None:
                      title='Carbon Emissions and Nuclear Power Plants per Capita',
                      template='ggplot2')
 
-    # # line of best fit using our linear regression
-    # our_y1 = calculate_coeff(0, , )
-    # our_y2 = calculate_coeff(6e-07, , )
-    # fig.add_trace(go.Scatter(x=[0, 6e-07], y=[our_y1, our_y2], mode="lines",
-    #                          line=go.scatter.Line(color=px.colors.qualitative.Pastel[0])))
-    #
-    # # line of best fit using sklearn's multiple linear regression
-    # sk_y1 = calculate_coeff(0, , )
-    # sk_y2 = calculate_coeff(6e-07, , )
-    # fig.add_trace(go.Scatter(x=[0, 6e-07], y=[sk_y1, sk_y2], mode="lines",
-    #                          line=go.scatter.Line(color=px.colors.qualitative.Pastel[5])))
+    # line of best fit using our linear regression
+    # ORIGINAL coeff & intercept
+    # our_slope = 2.15e-10
+    # our_intercept = 7.4e-6
+    our_y1 = calculate_coeff(min_x_val, our_slope, our_intercept)
+    our_y2 = calculate_coeff(max_x_val, our_slope, our_intercept)
+    fig.add_trace(go.Scatter(x=[min_x_val, max_x_val], y=[our_y1, our_y2], mode="lines",
+                             line=go.scatter.Line(color=px.colors.qualitative.Pastel[0]), name="our line"))
+
+    # line of best fit using sklearn's multiple linear regression
+    sk_slope = 0.809
+    sk_intercept = 7.29e-6
+    sk_y1 = calculate_coeff(min_x_val, sk_slope, sk_intercept)
+    sk_y2 = calculate_coeff(max_x_val, sk_slope, sk_intercept)
+    fig.add_trace(go.Scatter(x=[min_x_val, max_x_val], y=[sk_y1, sk_y2], mode="lines",
+                             line=go.scatter.Line(color=px.colors.qualitative.Pastel[5]), name="sk line"))
 
     fig.show()
 
 
-def emissions_power_plants_plot() -> None:
+def emissions_power_plants_plot(our_slope, our_intercept) -> None:
     """Plot emissions power plants per capita and carbon emissions per capita on a scatter plot.
     Then add a linear regression, using regression fit in regression.py.
     Each point that is plotted represents a country.
@@ -172,22 +182,30 @@ def emissions_power_plants_plot() -> None:
                      y='Carbon Emissions per Capita',
                      title='Carbon Emissions and Emission Power Plants per Capita',
                      template='ggplot2')
-    # # line of best fit using our linear regression
-    # our_y1 = calculate_coeff(0, , )
-    # our_y2 = calculate_coeff(6e-07, , )
-    # fig.add_trace(go.Scatter(x=[0, 6e-07], y=[our_y1, our_y2], mode="lines",
-    #                          line=go.scatter.Line(color=px.colors.qualitative.Pastel[0])))
-    #
-    # # line of best fit using sklearn's multiple linear regression
-    # sk_y1 = calculate_coeff(0, , )
-    # sk_y2 = calculate_coeff(6e-07, , )
-    # fig.add_trace(go.Scatter(x=[0, 6e-07], y=[sk_y1, sk_y2], mode="lines",
-    #                          line=go.scatter.Line(color=px.colors.qualitative.Pastel[5])))
+    max_x_val = powerplantdf['Emission Power Plants per Capita'].max() * 1.2
+    # min_x_val is close to 0, so its more intuitive to start the graph at 0
+    min_x_val = 0
+    # line of best fit using our linear regression
+    # ORIGINAL VALS:
+    # our_slope = 3.65e-6
+    # our_intercept = 6.55e-6
+    our_y1 = calculate_coeff(min_x_val, our_slope, our_intercept)
+    our_y2 = calculate_coeff(max_x_val, our_slope, our_intercept)
+    fig.add_trace(go.Scatter(x=[min_x_val, max_x_val], y=[our_y1, our_y2], mode="lines",
+                             line=go.scatter.Line(color=px.colors.qualitative.Pastel[0]), name="our line"))
+
+    # line of best fit using sklearn's multiple linear regression
+    sk_slope = 4.03
+    sk_intercept = -3.59e-7
+    sk_y1 = calculate_coeff(min_x_val, sk_slope, sk_intercept)
+    sk_y2 = calculate_coeff(max_x_val, sk_slope, sk_intercept)
+    fig.add_trace(go.Scatter(x=[min_x_val, max_x_val], y=[sk_y1, sk_y2], mode="lines",
+                             line=go.scatter.Line(color=px.colors.qualitative.Pastel[5]), name="sk line"))
 
     fig.show()
 
 
-def non_emissions_power_plants_plot() -> None:
+def non_emissions_power_plants_plot(our_slope, our_intercept) -> None:
     """Plot non-emissions power plants per capita and carbon emissions per capita on a scatter plot.
     Then add a linear regression, using regression fit in regression.py.
     Each point that is plotted represents a country.
@@ -200,17 +218,26 @@ def non_emissions_power_plants_plot() -> None:
                      y='Carbon Emissions per Capita',
                      title='Carbon Emissions and Non-Emission Power Plants per Capita',
                      template='ggplot2')
-    # # line of best fit using our linear regression
-    # our_y1 = calculate_coeff(0, , )
-    # our_y2 = calculate_coeff(6e-07, , )
-    # fig.add_trace(go.Scatter(x=[0, 6e-07], y=[our_y1, our_y2], mode="lines",
-    #                          line=go.scatter.Line(color=px.colors.qualitative.Pastel[0])))
-    #
-    # # line of best fit using sklearn's multiple linear regression
-    # sk_y1 = calculate_coeff(0, , )
-    # sk_y2 = calculate_coeff(6e-07, , )
-    # fig.add_trace(go.Scatter(x=[0, 6e-07], y=[sk_y1, sk_y2], mode="lines",
-    #                          line=go.scatter.Line(color=px.colors.qualitative.Pastel[5])))
+    max_x_val = powerplantdf['Non-Emission Power Plants per Capita'].max() * 1.2
+    # min_x_val is close to 0, so its more intuitive to start the graph at 0
+    min_x_val = 0
+    # line of best fit using our linear regression
+    # ORIGINAL VALS:
+
+    # our_slope = 1.73e-6
+    # our_intercept = 6.4e-6
+    our_y1 = calculate_coeff(min_x_val, our_slope, our_intercept)
+    our_y2 = calculate_coeff(max_x_val, our_slope, our_intercept)
+    fig.add_trace(go.Scatter(x=[min_x_val, max_x_val], y=[our_y1, our_y2], mode="lines",
+                             line=go.scatter.Line(color=px.colors.qualitative.Pastel[0]), name="our line"))
+
+    # line of best fit using sklearn's multiple linear regression
+    sk_slope = 0.08
+    sk_intercept = 6.05e-6
+    sk_y1 = calculate_coeff(min_x_val, sk_slope, sk_intercept)
+    sk_y2 = calculate_coeff(max_x_val, sk_slope, sk_intercept)
+    fig.add_trace(go.Scatter(x=[min_x_val, max_x_val], y=[sk_y1, sk_y2], mode="lines",
+                             line=go.scatter.Line(color=px.colors.qualitative.Pastel[5]), name="sk line"))
 
     fig.show()
 
@@ -262,15 +289,17 @@ def calculate_coeff(x_value: float, m_value: float, b_value: float) -> float:
 if __name__ == '__main__':
     import python_ta
 
-    python_ta.check_all(config={
-        'max-line-length': 120,
-        'extra-imports': ['python_ta.contracts', 'pandas', 'plotly.express', 'data_processing'],
-        'disable': ['R1705', 'C0200'],
-    })
+    # python_ta.check_all(config={
+    #     'max-line-length': 120,
+    #     'extra-imports': ['python_ta.contracts', 'pandas', 'plotly.express', 'data_processing'],
+    #     'disable': ['R1705', 'C0200'],
+    # })
 
     import python_ta.contracts
+
     python_ta.contracts.DEBUG_CONTRACTS = False
     python_ta.contracts.check_all_contracts()
 
     import doctest
+
     doctest.testmod()
