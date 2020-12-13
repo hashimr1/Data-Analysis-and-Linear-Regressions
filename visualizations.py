@@ -94,8 +94,6 @@ def nuclear_locations_df() -> pd.DataFrame:
 ################################################################################
 # Scatter Plots and Linear Regressions
 ################################################################################
-<<<<<<< HEAD
-=======
 def nuclear_emissions_plot(our_slope, our_intercept) -> None:
     """Plot nuclear emissions per capita and carbon emissions per capita on a scatter plot.
     Then add a linear regression, using regression fit in regression.py.
@@ -123,7 +121,6 @@ def nuclear_emissions_plot(our_slope, our_intercept) -> None:
     fig.show()
 
 
->>>>>>> 5ebc58887db4da21e3a9fd71561a103dd5bb4917
 def emissions_power_plants_plot(our_slope, our_intercept) -> None:
     """Plot emissions power plants per capita and carbon emissions per capita on a scatter plot.
     Then add a linear regression, using regression fit in regression.py.
@@ -172,8 +169,6 @@ def non_emissions_power_plants_plot(our_slope: float, our_intercept: float) -> N
     our_y2 = calculate_coeff(max_x_val, our_slope, our_intercept)
     fig.add_trace(go.Scatter(x=[min_x_val, max_x_val], y=[our_y1, our_y2], mode="lines",
                              line=go.scatter.Line(color=px.colors.qualitative.Pastel[0]), name="regression line"))
-<<<<<<< Updated upstream
-=======
 
     fig.show()
 
@@ -200,8 +195,7 @@ def nuclear_emissions_plot(our_slope, our_intercept) -> None:
     our_y1 = calculate_coeff(min_x_val, our_slope, our_intercept)
     our_y2 = calculate_coeff(max_x_val, our_slope, our_intercept)
     fig.add_trace(go.Scatter(x=[min_x_val, max_x_val], y=[our_y1, our_y2], mode="lines",
-                             line=go.scatter.Line(color=px.colors.qualitative.Pastel[0]), name="our line"))
->>>>>>> Stashed changes
+                             line=go.scatter.Line(color=px.colors.qualitative.Pastel[0]), name="regression line"))
 
     fig.show()
 
