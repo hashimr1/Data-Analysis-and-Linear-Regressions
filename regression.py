@@ -1,7 +1,9 @@
 """CSC110 Fall 2020 Final assignment Multiple Variable Linear Regression
 
-Provides an implementation of Multiple Variable Linear Regression, as well as a test case
-
+Description
+===============================
+This python module provides an implementation of Multiple Variable Linear Regression,
+as well as a test case.
 
 Copyright and Usage Information
 ===============================
@@ -9,12 +11,13 @@ This file is provided solely for the final assignment of CSC110 at the Universit
 St. George campus. All forms of distribution of this code, whether as given or with any changes,
 are expressly prohibited.
 
-This file is Copyright (c) 2020 Kenneth Miura.
+This file is Copyright (c) 2020 Raazia Hashim, Kenneth Miura, Shilin Zhang.
 """
 import math
 import numpy as np
 from sklearn.linear_model import LinearRegression
 import data_processing
+
 
 def ols_linear_regression(x: np.array, y: np.array) -> np.array:
     """Return a numpy array of coefficients and intercept that best predict y.
@@ -44,22 +47,26 @@ def ols_linear_regression(x: np.array, y: np.array) -> np.array:
 
 
 def test_emissions_and_nonemissions_regression() -> None:
-    """Test that ols_linear_regression method's regression is similarly or more accurate to the
-    sklearn LinearRegression class's regression on data with IV: emission and non-emission
-    powerplants per capita and DV: Carbon Emissions per capita
+    """Test that ols_linear_regression method's regression is similar or more accurate compared
+    to the sklearn LinearRegression class's regression on data with the independent variables being
+    emission and non-emission power plants per capita and the dependent variable being
+    Carbon Emissions per capita.
     """
     _, proportions = data_processing.read_powerplant_file('global_power_plant_database.csv', 'owid-co2-data.csv',
                                                           'countries of the world.csv')
     _, emissions = data_processing.read_carbon_emission_file('global_power_plant_database.csv', 'owid-co2-data.csv',
                                                              'countries of the world.csv')
     np_proportions = np.array(proportions)
+
     np_emissions = np.array(emissions).reshape((-1, 1))
+
     assert similar_to_sklearn(np_proportions, np_emissions)
 
 
 def test_nuclear_regression() -> None:
-    """Test that ols_linear_regression's regression is similarly or moreaccurate to the sklearn LinearRegression
-    class's regression on data with IV: Nuclear powerplants per Capita and DV: Carbon Emissions per capita
+    """Test that ols_linear_regression's regression is similar or more accurate compared to the
+    sklearn LinearRegression class's regression on data with the independent variable being
+    Nuclear power plants per Capita and the dependent variable being Carbon Emissions per capita.
     """
     _, nuclear_powerplants = data_processing.read_nuclear_powerplant('global_power_plant_database.csv',
                                                                      'owid-co2-data.csv',
@@ -67,32 +74,40 @@ def test_nuclear_regression() -> None:
     _, nuclear_emissions = data_processing.read_nuclear_powerplant_co2('global_power_plant_database.csv',
                                                                        'owid-co2-data.csv',
                                                                        'countries of the world.csv')
+
     np_nuclear = np.array(nuclear_powerplants).reshape(-1, 1)
+
     np_nuclear_emissions = np.array(nuclear_emissions).reshape(-1, 1)
 
     assert similar_to_sklearn(np_nuclear, np_nuclear_emissions)
 
 
 def test_emissions_only_data() -> None:
-    """Test that ols_linear_regression's regression is similarly or more accurate to the sklearn LinearRegression
-    class's regression on data with IV: Emissions powerplants per Capita and DV: Carbon Emissions per Capita
+    """Test that ols_linear_regression's regression is similar or more accurate compared to the
+    sklearn LinearRegression class's regression on data with the independent variable being
+    Emissions powerplants per Capita and the dependent variable being Carbon Emissions per Capita.
     """
-    # NOTE: the sklearn methods want np array in form (index of the datapoint, variable), which they are in right now
+    # NOTE: the sklearn methods want np array in form (index of the datapoint, variable),
+    # which they are in right now
     _, proportions = data_processing.read_powerplant_file('global_power_plant_database.csv',
                                                           'owid-co2-data.csv',
                                                           'countries of the world.csv')
     _, emissions = data_processing.read_carbon_emission_file('global_power_plant_database.csv',
                                                              'owid-co2-data.csv',
                                                              'countries of the world.csv')
+
     np_proportions = np.array(proportions)[:, 0].reshape((-1, 1))
+
     np_emissions = np.array(emissions).reshape((-1, 1))
 
     assert similar_to_sklearn(np_proportions, np_emissions)
 
 
 def test_non_emission_only_data() -> None:
-    """Test that ols_linear_regression's regression is similarly or more accurate to the sklearn LinearRegression
-    class's regression on data with IV: Non-Emission powerplants per Capita and DV: Carbon Emissions per Capita
+    """Test that ols_linear_regression's regression is similar or more accurate compared to
+    the sklearn LinearRegression class's regression on data with the independent variable
+    being Non-Emission powerplants per Capita and the dependent variable being Carbon
+    Emissions per Capita.
     """
     _, proportions = data_processing.read_powerplant_file('global_power_plant_database.csv',
                                                           'owid-co2-data.csv',
@@ -108,7 +123,7 @@ def test_non_emission_only_data() -> None:
 
 def similar_to_sklearn(x: np.array, y: np.array) -> bool:
     """Return whether ols_linear_regression's regression is similarly or more accurate than the sklearn LinearRegression
-    class's regression on data with IV: x, and DV: y
+    class's regression on data with independent variable x, and dependent variable y.
 
     Based off
     https://scikit-learn.org/stable/auto_examples/linear_model/plot_ols_3d.html#sphx-glr-auto-examples-linear-model-plot-ols-3d-py (CITE THIS LATER!)
@@ -141,7 +156,8 @@ def similar_to_sklearn(x: np.array, y: np.array) -> bool:
     ols_test_error_average = np.average(prediction - y_test)
 
     tolerance = 0.5
-    # Less than because it's fine/good for the ols implementation to have less error than the sklearn version
+    # Less than because it's fine/good for the ols implementation to have less error
+    # than the sklearn version
     return abs(ols_test_error_average) - abs(sklearn_test_error_average) < tolerance
 
 
@@ -158,6 +174,7 @@ if __name__ == '__main__':
 
     python_ta.contracts.DEBUG_CONTRACTS = False
     python_ta.contracts.check_all_contracts()
+
     import pytest
 
     pytest.main(['regression.py'])
