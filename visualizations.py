@@ -317,13 +317,13 @@ def calculate_coeff(x_value: float, m_value: float, b_value: float) -> float:
     return (m_value * x_value) + b_value
 
 
-<<<<<<< HEAD
 # if __name__ == '__main__':
 #     import python_ta
 #
 #     python_ta.check_all(config={
 #         'max-line-length': 120,
-#         'extra-imports': ['python_ta.contracts', 'pandas', 'plotly.express', 'data_processing'],
+#         'extra-imports': ['python_ta.contracts', 'pandas', 'plotly.express', 'data_processing', 'sklearn.svm',
+#         'plotly.graph_objects', 'numpy', 'List'],
 #         'disable': ['R1705', 'C0200'],
 #     })
 #
@@ -333,22 +333,3 @@ def calculate_coeff(x_value: float, m_value: float, b_value: float) -> float:
 #
 #     import doctest
 #     doctest.testmod()
-=======
-if __name__ == '__main__':
-    import python_ta
-
-    # python_ta.check_all(config={
-    #     'max-line-length': 120,
-    #     'extra-imports': ['python_ta.contracts', 'pandas', 'plotly.express', 'data_processing'],
-    #     'disable': ['R1705', 'C0200'],
-    # })
-
-    import python_ta.contracts
-
-    python_ta.contracts.DEBUG_CONTRACTS = False
-    python_ta.contracts.check_all_contracts()
-
-    import doctest
-
-    doctest.testmod()
->>>>>>> c784c1970f0e91195a46e7e69cccc05d94e8d948
