@@ -1,0 +1,13 @@
+# CSC110 Final Project: Python libraries we'll be using this semester.
+# Raazia Hashim, Kenneth Miura, Shilin Zhang
+
+# Testing and code checking
+pytest
+python-ta
+
+# Computation and data visualization
+plotly
+numpy
+pandas
+sklearn
+
