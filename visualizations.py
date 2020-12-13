@@ -259,7 +259,7 @@ def powerplants_and_emissions_plot() -> None:
     """
     powerplantdf = power_plant_df()
 
-    mesh_size = 0.02
+    mesh_size = 1e-06
     margin = 0
 
     x = powerplantdf[['Emission_Plants', 'Non_Emission_Plants']]
