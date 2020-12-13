@@ -276,8 +276,14 @@ def powerplants_and_emissions_plot() -> None:
     yrange = np.arange(y_min, y_max, mesh_size)
     xx, yy = np.meshgrid(xrange, yrange)
 
+    sample_coeffs = np.array([4.02, 0.025])
+    offset = -4.54e-7
+
     # Run model
-    pred = model.predict(np.c_[xx.ravel(), yy.ravel()])
+    # pred = model.predict(np.c_[xx.ravel(), yy.ravel()])
+    IVs = np.c_[xx.ravel(), yy.ravel()]
+    pred = np.dot(IVs, sample_coeffs) + offset
+
     pred = pred.reshape(xx.shape)
 
     # Generate the plot
@@ -315,7 +321,6 @@ def calculate_coeff(x_value: float, m_value: float, b_value: float) -> float:
     using the given coefficients.
     """
     return (m_value * x_value) + b_value
-
 
 # if __name__ == '__main__':
 #     import python_ta

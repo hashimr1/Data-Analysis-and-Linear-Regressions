@@ -16,7 +16,6 @@ import numpy as np
 from sklearn.linear_model import LinearRegression
 import data_processing
 
-
 def ols_linear_regression(x: np.array, y: np.array) -> np.array:
     """Return a numpy array of coefficients and intercept that best predict y.
 
@@ -60,15 +59,15 @@ def test_emissions_and_nonemissions_regression() -> None:
 
 def test_nuclear_regression() -> None:
     """Test that ols_linear_regression's regression is similarly or moreaccurate to the sklearn LinearRegression
-    class's regression on data with IV: Nuclear Emissions per Capita and DV: Carbon Emissions per capita
+    class's regression on data with IV: Nuclear powerplants per Capita and DV: Carbon Emissions per capita
     """
-    _, num_of_nuclear = data_processing.read_nuclear_powerplant('global_power_plant_database.csv',
-                                                                'owid-co2-data.csv',
-                                                                'countries of the world.csv')
+    _, nuclear_powerplants = data_processing.read_nuclear_powerplant('global_power_plant_database.csv',
+                                                                     'owid-co2-data.csv',
+                                                                     'countries of the world.csv')
     _, nuclear_emissions = data_processing.read_nuclear_powerplant_co2('global_power_plant_database.csv',
                                                                        'owid-co2-data.csv',
                                                                        'countries of the world.csv')
-    np_nuclear = np.array(num_of_nuclear).reshape(-1, 1)
+    np_nuclear = np.array(nuclear_powerplants).reshape(-1, 1)
     np_nuclear_emissions = np.array(nuclear_emissions).reshape(-1, 1)
 
     assert similar_to_sklearn(np_nuclear, np_nuclear_emissions)
@@ -137,6 +136,7 @@ def similar_to_sklearn(x: np.array, y: np.array) -> bool:
     ols_reg = ols_linear_regression(x_train, y_train)
     np_coeffs = np.array(ols_reg)[:-1]
     offset = ols_reg[-1]
+    print(f'coeffs: {np_coeffs}, offset: {offset}')
     prediction = np.dot(x_test, np_coeffs) + offset
     ols_test_error_average = np.average(prediction - y_test)
 
