@@ -143,8 +143,6 @@ def nuclear_emissions_plot(our_slope, our_intercept) -> None:
     # min_x_val is close to 0, so its more intuitive to start the graph at 0
     min_x_val = 0
 
-    print(f'min {min_x_val}')
-    print(f'max: {max_x_val}')
     fig = px.scatter(nuclearplantdf, x='Nuclear Power Plants per Capita',
                      y='Carbon Emissions per Capita',
                      color='Countries',
@@ -181,11 +179,14 @@ def emissions_power_plants_plot(our_slope, our_intercept) -> None:
     """
     powerplantdf = power_plant_df()
 
-    fig = px.scatter(powerplantdf, x='Emission Power Plants per Capita',
-                     y='Carbon Emissions per Capita',
+    fig = px.scatter(powerplantdf, x='Emission_Plants', y='Carbon_Emissions',
+                     labels={
+                         'Emission_Plants': 'Emission Power Plants per Capita',
+                         'Carbon_Emissions': 'Carbon Emissions per Capita'
+                     },
                      title='Carbon Emissions and Emission Power Plants per Capita',
                      template='ggplot2')
-    max_x_val = powerplantdf['Emission Power Plants per Capita'].max() * 1.2
+    max_x_val = powerplantdf['Emission_Plants'].max() * 1.2
     # min_x_val is close to 0, so its more intuitive to start the graph at 0
     min_x_val = 0
     # line of best fit using our linear regression
@@ -217,11 +218,14 @@ def non_emissions_power_plants_plot(our_slope, our_intercept) -> None:
     """
     powerplantdf = power_plant_df()
 
-    fig = px.scatter(powerplantdf, x='Non-Emission Power Plants per Capita',
-                     y='Carbon Emissions per Capita',
+    fig = px.scatter(powerplantdf, x='Non_Emission_Plants', y='Carbon_Emissions',
+                     labels={
+                         'Non_Emission_Plants': 'Non-Emission Power Plants per Capita',
+                         'Carbon_Emissions': 'Carbon Emissions per Capita'
+                     },
                      title='Carbon Emissions and Non-Emission Power Plants per Capita',
                      template='ggplot2')
-    max_x_val = powerplantdf['Non-Emission Power Plants per Capita'].max() * 1.2
+    max_x_val = powerplantdf['Non_Emission_Plants'].max() * 1.2
     # min_x_val is close to 0, so its more intuitive to start the graph at 0
     min_x_val = 0
     # line of best fit using our linear regression
