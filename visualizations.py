@@ -143,7 +143,7 @@ def nuclear_emissions_plot(our_slope, our_intercept) -> None:
     our_y1 = calculate_coeff(min_x_val, our_slope, our_intercept)
     our_y2 = calculate_coeff(max_x_val, our_slope, our_intercept)
     fig.add_trace(go.Scatter(x=[min_x_val, max_x_val], y=[our_y1, our_y2], mode="lines",
-                             line=go.scatter.Line(color=px.colors.qualitative.Pastel[0]), name="our line"))
+                             line=go.scatter.Line(color=px.colors.qualitative.Pastel[0]), name="regression line"))
 
     fig.show()
 
@@ -169,7 +169,7 @@ def emissions_power_plants_plot(our_slope, our_intercept) -> None:
     our_y1 = calculate_coeff(min_x_val, our_slope, our_intercept)
     our_y2 = calculate_coeff(max_x_val, our_slope, our_intercept)
     fig.add_trace(go.Scatter(x=[min_x_val, max_x_val], y=[our_y1, our_y2], mode="lines",
-                             line=go.scatter.Line(color=px.colors.qualitative.Pastel[0]), name="our line"))
+                             line=go.scatter.Line(color=px.colors.qualitative.Pastel[0]), name="regression line"))
 
     fig.show()
 
@@ -195,7 +195,7 @@ def non_emissions_power_plants_plot(our_slope: float, our_intercept: float) -> N
     our_y1 = calculate_coeff(min_x_val, our_slope, our_intercept)
     our_y2 = calculate_coeff(max_x_val, our_slope, our_intercept)
     fig.add_trace(go.Scatter(x=[min_x_val, max_x_val], y=[our_y1, our_y2], mode="lines",
-                             line=go.scatter.Line(color=px.colors.qualitative.Pastel[0]), name="our line"))
+                             line=go.scatter.Line(color=px.colors.qualitative.Pastel[0]), name="regression line"))
 
     fig.show()
 
