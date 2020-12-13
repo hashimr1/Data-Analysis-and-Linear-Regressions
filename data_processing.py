@@ -2,20 +2,16 @@
 
 Description
 ===============================
-
 This Python module contains functions that read data from the powerplant and carbon
-emission file and preprocess the data for our future computations which is creating a
-multiple variable linear regression to predict carbon emission with proportion of
-emission and non-emission powerplant.
+emission file and preprocess the data for future computations.
 
 Copyright and Usage Information
 ===============================
-
 This file is provided solely for the final assignment of CSC110 at the University of Toronto
 St. George campus. All forms of distribution of this code, whether as given or with any changes,
 are expressly prohibited.
 
-This file is Copyright (c) 2020 Shilin Zhang.
+This file is Copyright (c) 2020 Raazia Hashim, Kenneth Miura, Shilin Zhang.
 """
 import csv
 from typing import List, Set, Dict
@@ -23,7 +19,7 @@ from typing import List, Set, Dict
 
 def read_powerplant_file(powerplant_filepath: str, carbon_emission_filepath: str,
                          population_filepath: str) -> List[List]:
-    """ return the emission and non-emission powerplant per capita of a country.
+    """Return the emission and non-emission powerplant per capita of a country.
         The returned value will be a list of two list. The first list represent
         the country name and the second list is a list of tuples that have the number of
         emission powerplant per capita and the number of non-emission powerplnat per capita.
