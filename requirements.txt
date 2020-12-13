@@ -1,4 +1,4 @@
-# CSC110 Final Project: Python libraries we'll be using this semester.
+# CSC110 Final Project: Python libraries that are required to run the Final Project
 # Raazia Hashim, Kenneth Miura, Shilin Zhang
 
 # Testing and code checking
