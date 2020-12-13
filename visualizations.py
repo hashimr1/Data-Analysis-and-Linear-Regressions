@@ -248,7 +248,7 @@ def non_emissions_power_plants_plot(our_slope, our_intercept) -> None:
 ################################################################################
 # 3D Scatter Plots and Regression Surface
 ################################################################################
-def powerplants_and_emissions_plot() -> None:
+def powerplants_and_emissions_plot(coef1: float, coef2: float, offset: float) -> None:
     """Plot emission and non-emissions power plants per capita to prediict carbon emissions per capita
     on a 3D scatter plot.
     Then add a regression regression surface.
@@ -265,10 +265,6 @@ def powerplants_and_emissions_plot() -> None:
     x = powerplantdf[['Emission_Plants', 'Non_Emission_Plants']]
     y = powerplantdf['Carbon_Emissions']
 
-    # Condition the model on our independent variables, predict the dependent variable
-    model = SVR(C=1.)
-    model.fit(x, y)
-
     # Create a mesh grid on which we will run our model
     x_min, x_max = x.Emission_Plants.min() - margin, x.Emission_Plants.max() + margin
     y_min, y_max = x.Non_Emission_Plants.min() - margin, x.Non_Emission_Plants.max() + margin
@@ -276,13 +272,11 @@ def powerplants_and_emissions_plot() -> None:
     yrange = np.arange(y_min, y_max, mesh_size)
     xx, yy = np.meshgrid(xrange, yrange)
 
-    sample_coeffs = np.array([4.02, 0.025])
-    offset = -4.54e-7
+    sample_coeffs = np.array([coef1, coef2])
 
     # Run model
-    # pred = model.predict(np.c_[xx.ravel(), yy.ravel()])
-    IVs = np.c_[xx.ravel(), yy.ravel()]
-    pred = np.dot(IVs, sample_coeffs) + offset
+    ivs = np.c_[xx.ravel(), yy.ravel()]
+    pred = np.dot(ivs, sample_coeffs) + offset
 
     pred = pred.reshape(xx.shape)
 
