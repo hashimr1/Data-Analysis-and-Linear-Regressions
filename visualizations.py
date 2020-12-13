@@ -154,7 +154,6 @@ def nuclear_emissions_plot(our_slope, our_intercept) -> None:
     fig.add_trace(go.Scatter(x=[min_x_val, max_x_val], y=[our_y1, our_y2], mode="lines",
                              line=go.scatter.Line(color=px.colors.qualitative.Pastel[0]), name="our line"))
 
-
     fig.show()
 
 
@@ -181,7 +180,6 @@ def emissions_power_plants_plot(our_slope, our_intercept) -> None:
     fig.add_trace(go.Scatter(x=[min_x_val, max_x_val], y=[our_y1, our_y2], mode="lines",
                              line=go.scatter.Line(color=px.colors.qualitative.Pastel[0]), name="our line"))
 
-
     fig.show()
 
 
@@ -207,7 +205,6 @@ def non_emissions_power_plants_plot(our_slope: float, our_intercept: float) -> N
     our_y2 = calculate_coeff(max_x_val, our_slope, our_intercept)
     fig.add_trace(go.Scatter(x=[min_x_val, max_x_val], y=[our_y1, our_y2], mode="lines",
                              line=go.scatter.Line(color=px.colors.qualitative.Pastel[0]), name="our line"))
-
 
     fig.show()
 
@@ -259,6 +256,7 @@ def powerplants_and_emissions_plot(coef1: float, coef2: float, offset: float) ->
     fig.update_traces(marker=dict(size=5))
     fig.add_traces(go.Surface(x=xrange, y=yrange, z=pred, name='Prediction Surface',
                               colorscale='jet'))
+
     fig.show()
 
 
@@ -283,19 +281,20 @@ def calculate_coeff(x_value: float, m_value: float, b_value: float) -> float:
     """
     return (m_value * x_value) + b_value
 
-# if __name__ == '__main__':
-#     import python_ta
-#
-#     python_ta.check_all(config={
-#         'max-line-length': 120,
-#         'extra-imports': ['python_ta.contracts', 'pandas', 'plotly.express', 'data_processing', 'sklearn.svm',
-#         'plotly.graph_objects', 'numpy', 'List'],
-#         'disable': ['R1705', 'C0200'],
-#     })
-#
-#     import python_ta.contracts
-#     python_ta.contracts.DEBUG_CONTRACTS = False
-#     python_ta.contracts.check_all_contracts()
-#
-#     import doctest
-#     doctest.testmod()
+
+if __name__ == '__main__':
+    import python_ta
+
+    python_ta.check_all(config={
+        'max-line-length': 120,
+        'extra-imports': ['python_ta.contracts', 'pandas', 'plotly.express', 'data_processing', 'sklearn.svm',
+                          'plotly.graph_objects', 'numpy', 'List'],
+        'disable': ['R1705', 'C0200'],
+    })
+
+    import python_ta.contracts
+    python_ta.contracts.DEBUG_CONTRACTS = False
+    python_ta.contracts.check_all_contracts()
+
+    import doctest
+    doctest.testmod()
