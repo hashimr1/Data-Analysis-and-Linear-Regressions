@@ -2,30 +2,22 @@
 
 Description
 ===============================
-This Python module contains functions that visualize power plant and carbon emissions data.
-
-Resources:
-https://plotly.com/python/scattermapbox/
-https://plotly.com/python/line-and-scatter/
-https://plotly.com/python/3d-scatter-plots/
-https://plotly.com/python/ml-regression/
+This Python module contains functions that visualize power plant and carbon emissions data,
+including 2D and 3D scatter plots and a map.
 
 Copyright and Usage Information
 ===============================
 This file is provided solely for the final assignment of CSC110 at the University of Toronto
 St. George campus. All forms of distribution of this code, whether as given or with any changes,
 are expressly prohibited.
-This file is Copyright (c) 2020 Raazia Hashim.
+This file is Copyright (c) 2020 Raazia Hashim, Kenneth Miura, Shilin Zhang.
 """
 from typing import List
 
 import numpy as np
-
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-
-from sklearn.svm import SVR
 
 import data_processing
 
@@ -120,7 +112,6 @@ def nuclear_position_map() -> None:
                             size='Emissions',
                             color='Emissions',
                             color_continuous_scale='jet',
-                            # px.colors.sequential.Jet
                             hover_name='Countries',
                             hover_data=['Power Plant'],
                             title='Nuclear Power plants around the World')
@@ -293,8 +284,10 @@ if __name__ == '__main__':
     })
 
     import python_ta.contracts
+
     python_ta.contracts.DEBUG_CONTRACTS = False
     python_ta.contracts.check_all_contracts()
 
     import doctest
+
     doctest.testmod()
