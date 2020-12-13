@@ -39,7 +39,6 @@ if __name__ == '__main__':
     nuclear_emissions = np.array(nuclear_emissions).reshape(-1, 1)
 
     # Regression:
-    # TODO: better name than offset for this variable
     emissions_coeff, non_emissions_coeff, offset = regression.ols_linear_regression(proportions, co2_emissions)
 
     emissions_only_coeff, emissions_only_offset = regression.ols_linear_regression(emissions_powerplants, co2_emissions)
@@ -50,14 +49,14 @@ if __name__ == '__main__':
     nuclear_coeff, nuclear_offset = regression.ols_linear_regression(nuclear_powerplants, nuclear_emissions)
 
     # Visualizations:
-    visualizations.emissions_power_plants_plot(emissions_only_coeff, emissions_only_offset)
+    visualizations.emissions_power_plants_plot(emissions_only_coeff.item(), emissions_only_offset.item())
 
-    visualizations.non_emissions_power_plants_plot(non_emissions_only_coeff, non_emissions_only_offset)
+    visualizations.non_emissions_power_plants_plot(non_emissions_only_coeff.item(), non_emissions_only_offset.item())
 
-    visualizations.powerplants_and_emissions_plot(emissions_coeff, non_emissions_coeff, offset)
+    visualizations.powerplants_and_emissions_plot(emissions_coeff.item(), non_emissions_coeff.item(), offset.item())
 
-    visualizations.nuclear_emissions_plot(nuclear_coeff, nuclear_offset)
+    # UNCOMMENT BELOW TO VIEW NUCLEAR EMISSIONS REGRESSION PLOT AND NUCLEAR PLANTS POSITION MAP
 
-    visualizations.nuclear_position_map()
-
-    breakpoint()
+    # visualizations.nuclear_emissions_plot(nuclear_coeff.item(), nuclear_offset.item())
+    #
+    # visualizations.nuclear_position_map()
