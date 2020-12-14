@@ -94,7 +94,7 @@ def nuclear_locations_df() -> pd.DataFrame:
 ################################################################################
 # Scatter Plots and Linear Regressions
 ################################################################################
-def emissions_power_plants_plot(our_slope, our_intercept) -> None:
+def emissions_power_plants_plot(our_slope: float, our_intercept: float) -> None:
     """Plot emissions power plants per capita and carbon emissions per capita on a scatter plot.
     Then add a linear regression, using regression fit in regression.py.
     Each point that is plotted represents a country.
@@ -146,7 +146,7 @@ def non_emissions_power_plants_plot(our_slope: float, our_intercept: float) -> N
     fig.show()
 
 
-def nuclear_emissions_plot(our_slope, our_intercept) -> None:
+def nuclear_emissions_plot(our_slope: float, our_intercept: float) -> None:
     """Plot nuclear emissions per capita and carbon emissions per capita on a scatter plot.
     Then add a linear regression, using regression fit in regression.py.
     Each point that is plotted represents a country. The size of the point
@@ -188,23 +188,22 @@ def powerplants_and_emissions_plot(coef1: float, coef2: float, offset: float) ->
     powerplantdf = power_plant_df()
 
     mesh_size = 1e-06
-    margin = 0
 
     x = powerplantdf[['Emission_Plants', 'Non_Emission_Plants']]
-    y = powerplantdf['Carbon_Emissions']
 
     # Create a mesh grid on which we will run our model
-    x_min, x_max = x.Emission_Plants.min() - margin, x.Emission_Plants.max() + margin
-    y_min, y_max = x.Non_Emission_Plants.min() - margin, x.Non_Emission_Plants.max() + margin
-    xrange = np.arange(x_min, x_max, mesh_size)
-    yrange = np.arange(y_min, y_max, mesh_size)
+    xrange = np.arange(x.Emission_Plants.min(),
+                       x.Emission_Plants.max(),
+                       mesh_size)
+    yrange = np.arange(x.Non_Emission_Plants.min(),
+                       x.Non_Emission_Plants.max(),
+                       mesh_size)
     xx, yy = np.meshgrid(xrange, yrange)
 
     sample_coeffs = np.array([coef1, coef2])
 
     # Run model
-    ivs = np.c_[xx.ravel(), yy.ravel()]
-    pred = np.dot(ivs, sample_coeffs) + offset
+    pred = np.dot(np.c_[xx.ravel(), yy.ravel()], sample_coeffs) + offset
 
     pred = pred.reshape(xx.shape)
 
@@ -281,6 +280,7 @@ if __name__ == '__main__':
         'extra-imports': ['python_ta.contracts', 'pandas', 'plotly.express', 'data_processing', 'sklearn.svm',
                           'plotly.graph_objects', 'numpy', 'List'],
         'disable': ['R1705', 'C0200'],
+        'allowed-io': ['nuclear_position_map']
     })
 
     import python_ta.contracts
