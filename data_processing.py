@@ -87,7 +87,8 @@ def read_powerplant_file(powerplant_filepath: str, carbon_emission_filepath: str
 
 def read_carbon_emission_file(powerplant_filepath: str, carbon_emission_filepath: str,
                               population_filepath: str) -> List[List]:
-    """Return the carbon emission per capita in 2017 among all the country in the powerplant dataset and
+    """Return the carbon emission per capita in 2017 among all the country
+       in the powerplant dataset and
        population dataset. The returned value will be a list of two lists.
        The first list is the country name and
        the second list is the carbon emission per capita of the country in 2017
@@ -169,7 +170,8 @@ def read_nuclear_powerplant(powerplant_filepath: str, carbon_emission_filepath: 
 
 def read_nuclear_powerplant_co2(powerplant_filepath: str, carbon_emission_filepath: str,
                                 population_filepath: str) -> List[List]:
-    """Return the carbon emission per capita for countries that have at least one nuclear powerplant and that
+    """Return the carbon emission per capita for countries that have at
+     least one nuclear powerplant and that
      is in both the carbon emission dataset and the population dataset
      The returned value will be a list of two lists. The first list is the country name
      and the second list is the carbon emission per capita in 2017 that correspond to the country
@@ -214,7 +216,7 @@ def get_longtitude_latitude(powerplant_filepath: str, carbon_emission_filepath: 
 
     >>> nuclear_longtitude_latitude = get_longtitude_latitude('global_power_plant_database.csv', 'owid-co2-data.csv'\
     , 'countries of the world.csv')
-    >>> len(nuclear_longtitude_latitude[0]) == 191
+    >>> len(nuclear_longtitude_latitude[0]) == 192
     True
     """
     powerplant = read_powerplant_data('global_power_plant_database.csv')
