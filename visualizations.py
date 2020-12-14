@@ -234,7 +234,7 @@ def nuclear_position_map() -> None:
 
     Documentation available at https://plotly.com/python/scattermapbox/
     """
-    px.set_mapbox_access_token(open(".mapbox_token").read())
+    px.set_mapbox_access_token(open("mapbox_token").read())
 
     mapdf = nuclear_locations_df()
 
