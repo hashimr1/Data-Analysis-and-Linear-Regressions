@@ -57,6 +57,6 @@ if __name__ == '__main__':
 
     # UNCOMMENT BELOW TO VIEW NUCLEAR EMISSIONS REGRESSION PLOT AND NUCLEAR PLANTS POSITION MAP
 
-    # visualizations.nuclear_emissions_plot(nuclear_coeff.item(), nuclear_offset.item())
-    #
-    # visualizations.nuclear_position_map()
+    #visualizations.nuclear_emissions_plot(nuclear_coeff.item(), nuclear_offset.item())
+
+    #visualizations.nuclear_position_map()
