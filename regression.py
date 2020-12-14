@@ -36,12 +36,6 @@ def ols_linear_regression(x: np.array, y: np.array) -> np.array:
     # Adding a coefficient of 1 to allow for the offset
     x = np.append(x, np.ones((num_of_data_points, 1)), axis=1)
     y = np.array(y).astype(np.float64).reshape((-1, 1))
-    # equation based off:
-    # http://mezeylab.cb.bscb.cornell.edu/labmembers/documents/supplement%205%20-ob%20multiple%20regression.pdf
-    # also got idea of adding a column of 1s for offset, although put it on other side
-    # to match order of sklearn output for easier testing
-    # Using http: pillowlab.princeton.edu/teaching/statneuro2018/slides/notes03b_LeastSquaresRegression.pdf
-    # to show derivatives of x
     params = np.dot(np.linalg.inv(np.dot(x.T, x)), np.dot(x.T, y))
     return params
 
@@ -52,9 +46,11 @@ def test_emissions_and_nonemissions_regression() -> None:
     emission and non-emission power plants per capita and the dependent variable being
     Carbon Emissions per capita.
     """
-    _, proportions = data_processing.read_powerplant_file('global_power_plant_database.csv', 'owid-co2-data.csv',
+    _, proportions = data_processing.read_powerplant_file('global_power_plant_database.csv',
+                                                          'owid-co2-data.csv',
                                                           'countries of the world.csv')
-    _, emissions = data_processing.read_carbon_emission_file('global_power_plant_database.csv', 'owid-co2-data.csv',
+    _, emissions = data_processing.read_carbon_emission_file('global_power_plant_database.csv',
+                                                             'owid-co2-data.csv',
                                                              'countries of the world.csv')
     np_proportions = np.array(proportions)
 
@@ -68,18 +64,18 @@ def test_nuclear_regression() -> None:
     sklearn LinearRegression class's regression on data with the independent variable being
     Nuclear power plants per Capita and the dependent variable being Carbon Emissions per capita.
     """
-    _, nuclear_powerplants = data_processing.read_nuclear_powerplant('global_power_plant_database.csv',
-                                                                     'owid-co2-data.csv',
-                                                                     'countries of the world.csv')
-    _, nuclear_emissions = data_processing.read_nuclear_powerplant_co2('global_power_plant_database.csv',
-                                                                       'owid-co2-data.csv',
-                                                                       'countries of the world.csv')
+    _, nuclear_plants = data_processing.read_nuclear_powerplant('global_power_plant_database.csv',
+                                                                'owid-co2-data.csv',
+                                                                'countries of the world.csv')
+    _, nuclear_co2 = data_processing.read_nuclear_powerplant_co2('global_power_plant_database.csv',
+                                                                 'owid-co2-data.csv',
+                                                                 'countries of the world.csv')
 
-    np_nuclear = np.array(nuclear_powerplants).reshape(-1, 1)
+    np_nuclear = np.array(nuclear_plants).reshape(-1, 1)
 
-    np_nuclear_emissions = np.array(nuclear_emissions).reshape(-1, 1)
+    np_nuclear_co2 = np.array(nuclear_co2).reshape(-1, 1)
 
-    assert similar_to_sklearn(np_nuclear, np_nuclear_emissions)
+    assert similar_to_sklearn(np_nuclear, np_nuclear_co2)
 
 
 def test_emissions_only_data() -> None:
@@ -87,8 +83,6 @@ def test_emissions_only_data() -> None:
     sklearn LinearRegression class's regression on data with the independent variable being
     Emissions powerplants per Capita and the dependent variable being Carbon Emissions per Capita.
     """
-    # NOTE: the sklearn methods want np array in form (index of the datapoint, variable),
-    # which they are in right now
     _, proportions = data_processing.read_powerplant_file('global_power_plant_database.csv',
                                                           'owid-co2-data.csv',
                                                           'countries of the world.csv')
@@ -122,12 +116,10 @@ def test_non_emission_only_data() -> None:
 
 
 def similar_to_sklearn(x: np.array, y: np.array) -> bool:
-    """Return whether ols_linear_regression's regression is similarly or more accurate than the sklearn LinearRegression
+    """Return whether ols_linear_regression's regression is similarly or more
+    accurate than the sklearn LinearRegression
     class's regression on data with independent variable x, and dependent variable y.
 
-    Based off
-    https://scikit-learn.org/stable/auto_examples/linear_model/plot_ols_3d.html#sphx-glr-auto-examples-linear-model-plot-ols-3d-py (CITE THIS LATER!)
-    https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html#sklearn.linear_model.LinearRegression
     Preconditions:
         - x.size != 0
         - y.size != 0
@@ -151,13 +143,10 @@ def similar_to_sklearn(x: np.array, y: np.array) -> bool:
     ols_reg = ols_linear_regression(x_train, y_train)
     np_coeffs = np.array(ols_reg)[:-1]
     offset = ols_reg[-1]
-    print(f'coeffs: {np_coeffs}, offset: {offset}')
     prediction = np.dot(x_test, np_coeffs) + offset
     ols_test_error_average = np.average(prediction - y_test)
 
     tolerance = 0.5
-    # Less than because it's fine/good for the ols implementation to have less error
-    # than the sklearn version
     return abs(ols_test_error_average) - abs(sklearn_test_error_average) < tolerance
 
 
@@ -166,8 +155,9 @@ if __name__ == '__main__':
 
     python_ta.check_all(config={
         'max-line-length': 100,
-        'extra-imports': ['python_ta.contracts', 'numpy', 'data_processing', 'math', 'sklearn.linear_model'],
-        'disable': ['R1705', 'W1114']
+        'extra-imports': ['python_ta.contracts', 'numpy', 'data_processing',
+                          'math', 'sklearn.linear_model'],
+        'disable': ['R1705', 'W1114', 'C0103']
     })
 
     import python_ta.contracts
