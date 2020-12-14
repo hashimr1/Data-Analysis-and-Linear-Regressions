@@ -94,33 +94,6 @@ def nuclear_locations_df() -> pd.DataFrame:
 ################################################################################
 # Scatter Plots and Linear Regressions
 ################################################################################
-def nuclear_emissions_plot(our_slope, our_intercept) -> None:
-    """Plot nuclear emissions per capita and carbon emissions per capita on a scatter plot.
-    Then add a linear regression, using regression fit in regression.py.
-    Each point that is plotted represents a country. The size of the point
-    depend on the country's carbon emissions per capita.
-
-    Documentation available at https://plotly.com/python/line-and-scatter/
-    """
-    nuclearplantdf = nuclear_emissions_df()
-    max_x_val = nuclearplantdf['Nuclear Power Plants per Capita'].max() * 1.2
-    min_x_val = 0
-
-    fig = px.scatter(nuclearplantdf, x='Nuclear Power Plants per Capita',
-                     y='Carbon Emissions per Capita',
-                     color='Countries',
-                     size='Carbon Emissions per Capita',
-                     title='Carbon Emissions and Nuclear Power Plants per Capita',
-                     template='ggplot2')
-
-    our_y1 = calculate_coeff(min_x_val, our_slope, our_intercept)
-    our_y2 = calculate_coeff(max_x_val, our_slope, our_intercept)
-    fig.add_trace(go.Scatter(x=[min_x_val, max_x_val], y=[our_y1, our_y2], mode="lines",
-                             line=go.scatter.Line(color=px.colors.qualitative.Pastel[0]), name="regression line"))
-
-    fig.show()
-
-
 def emissions_power_plants_plot(our_slope, our_intercept) -> None:
     """Plot emissions power plants per capita and carbon emissions per capita on a scatter plot.
     Then add a linear regression, using regression fit in regression.py.
