@@ -12,9 +12,3 @@ Implemented two different regression methods, using the Numpy python library and
 ## Visualizations
 Visualizations of the data were done using the Plotly (plotly.express and plotly.graphobjects) and Pandas python libraries. 
 Data in the form of Lists were converted to Pandas Data Frames objects. Data and lines of best fit that were computed were viualized using plotly functions.
-Below are examples of visualizations created: 
-![alt text](https://www.online-convert.com/downloadfile/30873725-f1a6-443b-9f0b-33725eb0b700/49577bb1-a124-437f-8b43-e3e798f042d4)
-![alt text](https://www.online-convert.com/downloadfile/bd2edbae-b037-4475-8ca6-e6d09080f3d3/fc5a4b3a-dc4c-46a4-ae58-8d8fdf193fa3)
-![alt text](https://www.online-convert.com/downloadfile/30873725-f1a6-443b-9f0b-33725eb0b700/e3818cdf-b3ff-439f-bedb-d3cd85dfc12e)
-![alt text](https://www.online-convert.com/downloadfile/30873725-f1a6-443b-9f0b-33725eb0b700/99f2f238-4d60-4512-b654-ae736b5f0621)
-![alt text](https://www.online-convert.com/downloadfile/07c9b4ba-c946-4fd2-b113-fc52643bdeda/33245609-6112-49bc-a79f-10dd41da1aec)
